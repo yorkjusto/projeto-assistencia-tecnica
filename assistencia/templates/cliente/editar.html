@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %} Editar cliente {% endblock title %}
+{% block content %}
+
+    <h1 class="text-center">Editar Cliente</h1>
+    <div class="container mt-4">
+        <form method="post" class="row g-3">
+            {% csrf_token %}
+
+            <div class="col-12">
+                <label for="nome_cliente" class="form-label">Nome</label>
+                <input type="text" 
+                class="form-control" 
+                id="nome_cliente" 
+                placeholder="nome do cliente" 
+                name="nome"
+                value=" {{cliente.nome}} " 
+                required>
+            </div>
+            <div class="col-md-6">
+                <label for="email_cli" class="form-label">Email</label>
+                <input type="email" 
+                class="form-control" 
+                id="email_cli" 
+                name="email" 
+                placeholder="exemplo@gmail.com"
+                value=" {{cliente.email}} " 
+                required>
+            </div>
+            <div class="col-md-6">
+                <label for="telefone_cle" class="form-label">Telefone</label>
+                <input type="text" 
+                class="form-control" 
+                id="telefone_cli" 
+                name="telefone"
+                placeholder="911111111" 
+                value=" {{cliente.telefone}} "
+                required>
+            </div>
+            <div class="col-12">
+                <label for="morada_cli" class="form-label">Morada</label>
+                <input type="text" 
+                class="form-control" 
+                id="morada_cli" 
+                placeholder="Bairro social" 
+                name="morada" 
+                value=" {{cliente.morada}} "
+                required>
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+                <a class="btn btn-secondary" href="{% url 'assistencia:clientes' %}" > Cancelar </a>
+            </div>
+        </form>
+    </div>
+
+{% endblock content %}

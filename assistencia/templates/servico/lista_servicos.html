@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %}Lista de Ordens de Serviço{% endblock title %}
+{% block content %}
+
+<div class="container mt-4">
+    <h2 class="text-center">Lista de Ordens de Serviço</h2>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <a href="{% url 'assistencia:cadastrar_servico' %}" class="btn btn-success">
+             Nova Ordem
+        </a>
+    </div>
+
+    <!-- Tabela de Ordens -->
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr class="text-center">
+                            <th>ID</th>
+                            <th>Cliente</th>
+                            <th>Equipamento</th>
+                            <th>Data</th>
+                            <th>Valor</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ordem in ordens %}
+                        <tr class="text-center">
+                            <td>{{ ordem.id }}</td>
+                            <td>{{ ordem.cliente.nome }}</td>
+                            <td>{{ ordem.equipamento|truncatechars:25 }}</td>
+                            <td>{{ ordem.data|date:"d/m/Y" }}</td>
+                            <td>Kz {{ ordem.valor|default:"0,00"|floatformat:2 }}</td>
+                            <td>
+                                {% if ordem.id %}
+                                <a class="btn btn-primary" href="{% url 'assistencia:editar_servico' ordem.id %}" >Editar</a>
+                                <a class="btn btn-danger" href="{% url 'assistencia:excluir_servico' ordem.id %}" >Eliminar</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center py-4">
+                                {% if request.GET.cliente %}
+                                    Nenhuma ordem encontrada para este cliente
+                                {% else %}
+                                    Nenhuma ordem de serviço cadastrada
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Paginação -->
+    {% if is_paginated %}
+    <nav class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1{% if request.GET.cliente %}&cliente={{ request.GET.cliente }}{% endif %}">
+                        &laquo; Primeira
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.cliente %}&cliente={{ request.GET.cliente }}{% endif %}">
+                        Anterior
+                    </a>
+                </li>
+            {% endif %}
+
+            <li class="page-item disabled">
+                <span class="page-link">
+                    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+                </span>
+            </li>
+
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.cliente %}&cliente={{ request.GET.cliente }}{% endif %}">
+                        Próxima
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.cliente %}&cliente={{ request.GET.cliente }}{% endif %}">
+                        Última &raquo;
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+
+{% endblock content %}

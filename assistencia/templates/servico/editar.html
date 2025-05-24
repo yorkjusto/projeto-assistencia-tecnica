@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Editar Ordem de Serviço #{{ ordem.id }}</h2>
+    
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}success{% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="cliente" class="form-label">Cliente *</label>
+            <select class="form-select" id="cliente" name="cliente" required>
+                <option value="" disabled>Selecione um cliente</option>
+                {% for cliente in clientes %}
+                    <option value="{{ cliente.id }}" {% if cliente.id == ordem.cliente.id %}selected{% endif %}>
+                        {{ cliente.nome }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="equipamento" class="form-label">Equipamento *</label>
+            <input type="text" class="form-control" id="equipamento" name="equipamento" 
+                   value="{{ ordem.equipamento }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="defeito" class="form-label">Defeito Relatado *</label>
+            <textarea class="form-control" id="defeito" name="defeito" rows="3" required>{{ ordem.defeito }}</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="servico" class="form-label">Serviço a Ser Realizado</label>
+            <textarea class="form-control" id="servico" name="servico" rows="3">{{ ordem.servico }}</textarea>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="tecnico" class="form-label">Técnico Responsável</label>
+                <input type="text" class="form-control" id="tecnico" name="tecnico" 
+                       value="{{ ordem.tecnico }}">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="situacao" class="form-label">Situação</label>
+                <select class="form-select" id="situacao" name="situacao">
+                    {% for value, label in situacoes %}
+                        <option value="{{ value }}" {% if value == ordem.situacao %}selected{% endif %}>
+                            {{ label }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="valor" class="form-label">Valor (R$)</label>
+            <div class="input-group">
+                <span class="input-group-text">R$</span>
+                <input type="text" class="form-control" id="valor" name="valor" 
+                       value="{{ ordem.valor|floatformat:2 }}">
+            </div>
+        </div>
+
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a href="{% url 'assistencia:servicos' %}" class="btn btn-secondary me-md-2">
+                 Cancelar
+            </a>
+            <button type="submit" class="btn btn-primary">
+                 Salvar Alterações
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

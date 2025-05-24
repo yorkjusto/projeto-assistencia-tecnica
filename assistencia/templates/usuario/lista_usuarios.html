@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Usuário{% endblock title %}
+
+{% block content %}
+
+    <div class="container mt-4">
+
+        <h2 class="text-center">Lista de usuários</h2>
+        <a href="{% url 'assistencia:usuario_cadastrar' %}" class='btn btn-success'>
+        Novo usuário</a>
+
+        <table class="table table-info table-hover">
+    <thead>
+        <tr class="text-center table-danger">
+            <th>Nome</th>
+            <th>Telefone</th>
+            <th>Login</th>
+            <th>Perfil</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for usuario in usuarios %}
+        <tr class="text-center">
+            <td>{{ usuario.nome }}</td>
+            <td>{{ usuario.telefone }}</td>
+            <td>{{ usuario.login }}</td>
+            <td>{{ usuario.perfil }}</td>
+            
+            <td>
+                <a href="{% url 'assistencia:editar_usuario' usuario.id %}" class="btn btn-sm btn-primary">Editar</a>
+                <a href="{% url 'assistencia:excluir_usuario' usuario.id %}" class="btn btn-sm btn-danger">Excluir</a>
+            </td>
+        </tr>
+        {% empty %}
+        <td colspan="4" class="text-center">Nenhum usuário cadastrado.</td>
+        {% endfor %}
+    </tbody>
+</table>
+
+    </div>
+
+{% endblock content %}
