@@ -37,6 +37,7 @@
                                 {% if ordem.id %}
                                 <a class="btn btn-primary" href="{% url 'assistencia:editar_servico' ordem.id %}" >Editar</a>
                                 <a class="btn btn-danger" href="{% url 'assistencia:excluir_servico' ordem.id %}" >Eliminar</a>
+                                <a class="btn btn-success" href="{% url 'assistencia:ver_ordem' ordem.id %}" >Detalhes</a>
                                 {% endif %}
                             </td>
                         </tr>

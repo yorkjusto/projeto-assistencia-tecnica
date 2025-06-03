@@ -126,3 +126,7 @@ def excluir(request: HttpRequest, id):
         servico.delete()
         return redirect('assistencia:servicos')
     return render(request, 'servico/excluir.html', {'servico': servico} )
+
+def ver_ordem(request: HttpRequest, id):
+    ordem = get_object_or_404(OrdemDeServico, id=id)
+    return render(request, 'servico/ver.html', {'ordem': ordem})

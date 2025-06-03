@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %} Ver Ordem de Serviço {% endblock title %}
+{% block content %}
+    <div class="container mt-4">
+        <h2 class="text-center"> Detalhes da Ordem de Serviço </h2>
+        <ul class="list-group">
+            <li class="list-group-item" > <strong>Cliente:</strong> {{ordem.cliente.nome}} </li>
+            <li class="list-group-item" > <strong>Equipamento:</strong> {{ ordem.equipamento }} </li>
+            <li class="list-group-item" > <strong>Defeito:</strong> {{ ordem.defeito }} </li>
+            <li class="list-group-item" > <strong>Serviços:</strong> {{ ordem.servico }} </li>
+            <li class="list-group-item" > <strong>Técnico:</strong> {{ ordem.tecnico }} </li>
+            <li class="list-group-item" > <strong>Situação:</strong> {{ ordem.situacao }} </li>
+            <li class="list-group-item" > <strong>Data de Emissão:</strong> {{ ordem.data }} </li>
+            <li class="list-group-item" > <strong>Valor:</strong> {{ ordem.valor }} </li>
+        </ul>
+        <a href="{% url 'assistencia:editar_servico' ordem.id %}" class="btn btn-success">Editar</a>
+        <a href="{% url 'assistencia:servicos'%}" class="btn btn-secondary">Voltar</a>
+    </div>
+{% endblock content %}
